@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-Built Apps</title>
+  <meta name="description" content="A collection of small web apps built with AI.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+  <style>
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --muted: #5f6368;
+      --border: #e3e1dc;
+      --accent: #c2410c;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141414;
+        --surface: #1e1e1f;
+        --text: #ececec;
+        --muted: #a1a1a6;
+        --border: #2e2e30;
+        --accent: #fb923c;
+        --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.35);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 1040px; margin: 0 auto; padding: 64px 16px 48px; }
+    header { margin-bottom: 40px; }
+    h1 { font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1.1; margin: 0 0 12px; letter-spacing: -.02em; }
+    header p { color: var(--muted); max-width: 60ch; margin: 0; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      color: inherit;
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--accent); }
+    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .emoji { font-size: 2rem; line-height: 1; margin-bottom: 14px; }
+    .card h2 { font-size: 1.2rem; margin: 0 0 6px; }
+    .card p { color: var(--muted); margin: 0 0 18px; flex: 1; }
+    .visit { color: var(--accent); font-weight: 600; font-size: .95rem; }
+    .visit::after { content: " →"; }
+    footer { margin-top: 48px; color: var(--muted); font-size: .875rem; }
+    @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Apps I've built with AI</h1>
+      <p>A handful of small web projects, each built with an AI coding assistant. Click any card to try it out.</p>
+    </header>
+
+    <ul class="grid">
+      <li>
+        <a class="card" href="https://chris-moore.onrender.com" target="_blank" rel="noopener">
+          <div class="emoji" aria-hidden="true">📻</div>
+          <h2>Chris Moore, 1940–2021</h2>
+          <p>A tribute to the co-founder of Radio Caroline and the first voice heard on British offshore radio, with a place to share memories of him.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="https://pdxflix2.onrender.com" target="_blank" rel="noopener">
+          <div class="emoji" aria-hidden="true">🎬</div>
+          <h2>PDXFlix</h2>
+          <p>Movie showtimes for theaters around Portland, Oregon, all in one place.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="https://scrub-keyboard.onrender.com" target="_blank" rel="noopener">
+          <div class="emoji" aria-hidden="true">🎹</div>
+          <h2>Scrub Piano</h2>
+          <p>A full 88-key piano in the browser. Drag across the keys to play.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="https://succs4u.onrender.com" target="_blank" rel="noopener">
+          <div class="emoji" aria-hidden="true">🌵</div>
+          <h2>succs4u</h2>
+          <p>A rock garden.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="https://sunscout-r0xf.onrender.com" target="_blank" rel="noopener">
+          <div class="emoji" aria-hidden="true">☀️</div>
+          <h2>Sunscout</h2>
+          <p>Find the sun near you.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="https://wrens-journey.onrender.com" target="_blank" rel="noopener">
+          <div class="emoji" aria-hidden="true">🐦</div>
+          <h2>Wren's Journey</h2>
+          <p>An albino orphan, a borrowed father's voice on a dying cassette tape, and a wall no one has opened in five hundred years.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+    </ul>
+
+    <footer>
+      Apps are hosted on Render's free tier, so the first load can take up to a minute while the app wakes up.
+    </footer>
+  </main>
+</body>
+</html>
