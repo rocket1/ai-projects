@@ -8,69 +8,193 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
   <style>
     :root {
-      --bg: #f7f6f3;
-      --surface: #ffffff;
+      --bg: #eef1f7;
+      --glass: rgba(255,255,255,.55);
+      --glass-edge: rgba(255,255,255,.85);
       --text: #1d1d1f;
-      --muted: #5f6368;
-      --border: #e3e1dc;
+      --muted: #555b66;
       --accent: #c2410c;
-      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+      --blob-1: #7dd3fc;
+      --blob-2: #f9a8d4;
+      --blob-3: #fcd34d;
+      --shine: rgba(255,255,255,.75);
+      --shadow: 0 2px 6px rgba(20,30,60,.06), 0 12px 32px rgba(20,30,60,.10);
+      --shadow-hover: 0 4px 10px rgba(20,30,60,.08), 0 24px 56px rgba(20,30,60,.18);
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #141414;
-        --surface: #1e1e1f;
-        --text: #ececec;
-        --muted: #a1a1a6;
-        --border: #2e2e30;
+        --bg: #0d0f14;
+        --glass: rgba(30,34,44,.55);
+        --glass-edge: rgba(255,255,255,.14);
+        --text: #ececf1;
+        --muted: #a3a8b4;
         --accent: #fb923c;
-        --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.35);
+        --blob-1: #0e7490;
+        --blob-2: #9d174d;
+        --blob-3: #a16207;
+        --shine: rgba(255,255,255,.22);
+        --shadow: 0 2px 6px rgba(0,0,0,.35), 0 12px 32px rgba(0,0,0,.4);
+        --shadow-hover: 0 4px 10px rgba(0,0,0,.4), 0 24px 56px rgba(0,0,0,.6);
       }
     }
+
+    /* Lets the hover border's gradient angle animate smoothly */
+    @property --angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
+
     * { box-sizing: border-box; }
     body {
       margin: 0;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--text);
       font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
     }
-    main { max-width: 1040px; margin: 0 auto; padding: 64px 16px 48px; }
+
+    /* Slow-drifting color blobs behind everything, so the glass has something to refract */
+    .blobs { position: fixed; inset: 0; z-index: -1; filter: blur(80px); opacity: .7; pointer-events: none; }
+    .blobs span {
+      position: absolute;
+      width: 46vmax; height: 46vmax;
+      border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+      animation: drift 28s ease-in-out infinite alternate, morph 14s ease-in-out infinite;
+    }
+    .blobs span:nth-child(1) { background: var(--blob-1); top: -12vmax; left: -10vmax; }
+    .blobs span:nth-child(2) { background: var(--blob-2); bottom: -16vmax; right: -12vmax; animation-delay: -9s, -4s; }
+    .blobs span:nth-child(3) { background: var(--blob-3); top: 30%; left: 40%; width: 30vmax; height: 30vmax; animation-delay: -18s, -8s; }
+    @keyframes drift { to { transform: translate(8vmax, 6vmax) rotate(40deg); } }
+    @keyframes morph {
+      50% { border-radius: 63% 37% 41% 59% / 55% 62% 38% 45%; }
+    }
+
+    main { max-width: 1120px; margin: 0 auto; padding: 64px 16px 48px; }
     header { margin-bottom: 40px; }
-    h1 { font-size: clamp(2rem, 5vw, 2.75rem); line-height: 1.1; margin: 0 0 12px; letter-spacing: -.02em; }
+    h1 { font-size: clamp(2rem, 5vw, 2.9rem); line-height: 1.1; margin: 0 0 12px; letter-spacing: -.02em; }
     header p { color: var(--muted); max-width: 60ch; margin: 0; }
+
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
       list-style: none;
       padding: 0;
       margin: 0;
     }
+
+    /* Glass card */
     .card {
+      --mx: 50%; --my: 0%;
+      position: relative;
+      isolation: isolate;
       display: flex;
       flex-direction: column;
       height: 100%;
-      padding: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
+      padding: 12px 12px 22px;
+      border-radius: 24px;
+      background:
+        radial-gradient(420px circle at var(--mx) var(--my), var(--shine), transparent 45%) border-box,
+        linear-gradient(160deg, var(--glass-edge), transparent 40%) border-box,
+        var(--glass);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow), inset 0 1px 0 var(--glass-edge);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
       color: inherit;
       text-decoration: none;
-      transition: transform .15s ease, border-color .15s ease;
+      overflow: hidden;
+      transition: transform .5s cubic-bezier(.2,.9,.25,1.25), box-shadow .4s ease, border-radius .6s ease;
     }
-    .card:hover, .card:focus-visible { transform: translateY(-3px); border-color: var(--accent); }
-    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .emoji { font-size: 2rem; line-height: 1; margin-bottom: 14px; }
-    .card h2 { font-size: 1.2rem; margin: 0 0 6px; }
-    .card p { color: var(--muted); margin: 0 0 18px; flex: 1; }
-    .visit { color: var(--accent); font-weight: 600; font-size: .95rem; }
-    .visit::after { content: " →"; }
+
+    /* Rotating liquid-metal rim, shown on hover */
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      padding: 2px;
+      border-radius: inherit;
+      background: conic-gradient(from var(--angle), var(--blob-1), var(--blob-2), var(--blob-3), var(--blob-1));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .4s ease;
+      animation: spin 4s linear infinite paused;
+    }
+    @keyframes spin { to { --angle: 360deg; } }
+
+    /* Diagonal glint that sweeps across on hover */
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      z-index: 2;
+      background: linear-gradient(115deg, transparent 42%, var(--shine) 50%, transparent 58%);
+      transform: translateX(-70%);
+      pointer-events: none;
+    }
+
+    .card:hover, .card:focus-visible {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow: var(--shadow-hover), inset 0 1px 0 var(--glass-edge);
+      border-radius: 30px 22px 30px 22px;
+    }
+    .card:hover::before, .card:focus-visible::before { opacity: 1; animation-play-state: running; }
+    .card:hover::after, .card:focus-visible::after { transform: translateX(70%); transition: transform 1s ease; }
+    .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .shot {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--glass);
+      box-shadow: inset 0 0 0 1px var(--glass-edge);
+    }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform .8s cubic-bezier(.2,.9,.25,1), filter .5s ease;
+    }
+    /* Glossy lens highlight over the screenshot */
+    .shot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 30%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), inset 0 -18px 30px -18px rgba(0,0,0,.25);
+      pointer-events: none;
+    }
+    .card:hover .shot img { transform: scale(1.06); filter: saturate(1.2) brightness(1.04); }
+
+    .card h2 { font-size: 1.2rem; margin: 0 10px 6px; display: flex; align-items: center; gap: 8px; }
+    .card p { color: var(--muted); margin: 0 10px 18px; flex: 1; }
+    .visit { color: var(--accent); font-weight: 600; font-size: .95rem; margin: 0 10px; }
+    .visit::after { content: " →"; display: inline-block; transition: transform .3s ease; }
+    .card:hover .visit::after { transform: translateX(4px); }
+
     footer { margin-top: 48px; color: var(--muted); font-size: .875rem; }
-    @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .blobs span, .card::before { animation: none; }
+      .card, .card::after, .shot img, .visit::after { transition: none; }
+      .card:hover { transform: none; }
+      .card:hover::after { transform: translateX(-70%); }
+      .card:hover .shot img { transform: none; }
+    }
   </style>
 </head>
 <body>
+  <div class="blobs" aria-hidden="true"><span></span><span></span><span></span></div>
   <main>
     <header>
       <h1>Jason Frinchaboy's AI Apps</h1>
@@ -80,49 +204,57 @@
     <ul class="grid">
       <li>
         <a class="card" href="https://chris-moore.onrender.com" target="_blank" rel="noopener">
-          <div class="emoji" aria-hidden="true">📻</div>
-          <h2>Chris Moore, 1940–2021</h2>
+          <div class="shot"><img src="images/chris-moore.jpg" alt="Chris Moore tribute site: 'This is Radio Caroline on 199, your all-day music station.'" loading="lazy"></div>
+          <h2><span aria-hidden="true">📻</span> Chris Moore, 1940–2021</h2>
           <p>A tribute to the co-founder of Radio Caroline and the first voice heard on British offshore radio, with a place to share memories of him.</p>
           <span class="visit">Visit</span>
         </a>
       </li>
       <li>
         <a class="card" href="https://pdxflix2.onrender.com" target="_blank" rel="noopener">
-          <div class="emoji" aria-hidden="true">🎬</div>
-          <h2>PDXFlix</h2>
+          <div class="shot"><img src="images/pdxflix2.jpg" alt="PDXFlix: a searchable list of movies now showing in Portland" loading="lazy"></div>
+          <h2><span aria-hidden="true">🎬</span> PDXFlix</h2>
           <p>Movie showtimes for theaters around Portland, Oregon, all in one place.</p>
           <span class="visit">Visit</span>
         </a>
       </li>
       <li>
         <a class="card" href="https://scrub-keyboard.onrender.com" target="_blank" rel="noopener">
-          <div class="emoji" aria-hidden="true">🎹</div>
-          <h2>Scrub Piano</h2>
-          <p>A full 88-key piano in the browser. Drag across the keys to play.</p>
+          <div class="shot"><img src="images/scrub-keyboard.jpg" alt="Scrub Piano: an 88-key keyboard with scale, instrument, and drone controls" loading="lazy"></div>
+          <h2><span aria-hidden="true">🎹</span> Scrub Piano</h2>
+          <p>A full 88-key piano in the browser, with a scrub slider, scales, instruments, and drone chords.</p>
           <span class="visit">Visit</span>
         </a>
       </li>
       <li>
         <a class="card" href="https://succs4u.onrender.com" target="_blank" rel="noopener">
-          <div class="emoji" aria-hidden="true">🌵</div>
-          <h2>succs4u</h2>
-          <p>A rock garden.</p>
+          <div class="shot"><img src="images/succs4u.jpg" alt="succs4u: a desert rock garden at sunset with garden settings panel" loading="lazy"></div>
+          <h2><span aria-hidden="true">🌵</span> succs4u</h2>
+          <p>Grow your own desert rock garden. Choose a world and palette, then dial in the plants, rocks, cacti, and snakes.</p>
           <span class="visit">Visit</span>
         </a>
       </li>
       <li>
         <a class="card" href="https://sunscout-r0xf.onrender.com" target="_blank" rel="noopener">
-          <div class="emoji" aria-hidden="true">☀️</div>
-          <h2>Sunscout</h2>
-          <p>Find the sun near you.</p>
+          <div class="shot"><img src="images/sunscout-r0xf.jpg" alt="Sunscout: search form and map of sunny spots near Portland" loading="lazy"></div>
+          <h2><span aria-hidden="true">☀️</span> Sunscout</h2>
+          <p>Pick a starting point and some dates, and Sunscout maps where it's most likely to be sunny nearby.</p>
           <span class="visit">Visit</span>
         </a>
       </li>
       <li>
         <a class="card" href="https://wrens-journey.onrender.com" target="_blank" rel="noopener">
-          <div class="emoji" aria-hidden="true">🐦</div>
-          <h2>Wren's Journey</h2>
-          <p>An albino orphan, a borrowed father's voice on a dying cassette tape, and a wall no one has opened in five hundred years.</p>
+          <div class="shot"><img src="images/wrens-journey.jpg" alt="Wren's Journey: a text adventure opening in Sleeping Hollow" loading="lazy"></div>
+          <h2><span aria-hidden="true">🐦</span> Wren's Journey</h2>
+          <p>Interactive fiction: an albino orphan, a borrowed father's voice on a dying cassette tape, and a wall no one has opened in five hundred years.</p>
+          <span class="visit">Visit</span>
+        </a>
+      </li>
+      <li>
+        <a class="card" href="https://tour-match.onrender.com" target="_blank" rel="noopener">
+          <div class="shot"><img src="images/tour-match.jpg" alt="TourMatch: 'Find a local guide who gets you' with example searches and popular destinations" loading="lazy"></div>
+          <h2><span aria-hidden="true">🧭</span> TourMatch</h2>
+          <p>Describe your trip in plain language. TourMatch searches tour marketplaces and ranks the local guides that fit.</p>
           <span class="visit">Visit</span>
         </a>
       </li>
@@ -132,5 +264,16 @@
       Apps are hosted on Render's free tier, so the first load can take up to a minute while the app wakes up.
     </footer>
   </main>
+
+  <script>
+    // Make each card's highlight follow the pointer.
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  </script>
 </body>
 </html>
