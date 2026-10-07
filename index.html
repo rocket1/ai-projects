@@ -206,7 +206,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top;
+      object-position: center;
       filter: grayscale(1) contrast(1.25) brightness(1.05);
       mix-blend-mode: multiply;
     }
@@ -224,7 +224,7 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: var(--img) top / cover;
+      background: var(--img) center / cover;
       clip-path: circle(0 at var(--sx) var(--sy));
       transition: clip-path .7s cubic-bezier(.3,.8,.25,1);
       pointer-events: none;
@@ -264,6 +264,13 @@
       font: .8rem/1.6 var(--mono);
       color: var(--dim);
     }
+    .credits { margin-top: 14px; }
+    .credits summary { cursor: pointer; color: var(--white); width: max-content; }
+    .credits summary:hover { color: var(--cyan); }
+    .credits ul { margin: 10px 0 0; padding-left: 18px; }
+    .credits p { margin: 8px 0 0; }
+    .credits a { color: var(--dim); text-decoration-color: var(--magenta); }
+    .credits a:hover { color: var(--cyan); }
     footer::before { content: "※ "; color: var(--magenta); }
 
     @media (prefers-reduced-motion: reduce) {
@@ -287,7 +294,7 @@
     <ul class="grid">
       <li>
         <a class="card" href="https://chris-moore.onrender.com" target="_blank" rel="noopener" style="--img: url(images/chris-moore.jpg)">
-          <div class="shot"><img src="images/chris-moore.jpg" alt="Chris Moore tribute site: 'This is Radio Caroline on 199, your all-day music station.'" loading="lazy"></div>
+          <div class="shot"><img src="images/chris-moore.jpg" alt="The red Radio Caroline ship Ross Revenge at anchor" loading="lazy"></div>
           <span class="num">01</span>
           <h2>Chris Moore, 1940–2021</h2>
           <p>A tribute to the co-founder of Radio Caroline and the first voice heard on British offshore radio, with a place to share memories of him.</p>
@@ -296,7 +303,7 @@
       </li>
       <li>
         <a class="card" href="https://pdxflix2.onrender.com" target="_blank" rel="noopener" style="--img: url(images/pdxflix2.jpg)">
-          <div class="shot"><img src="images/pdxflix2.jpg" alt="PDXFlix: a searchable list of movies now showing in Portland" loading="lazy"></div>
+          <div class="shot"><img src="images/pdxflix2.jpg" alt="The Hollywood Theatre's marquee and neon sign in Portland, Oregon" loading="lazy"></div>
           <span class="num">02</span>
           <h2>PDXFlix</h2>
           <p>Movie showtimes for theaters around Portland, Oregon, all in one place.</p>
@@ -305,7 +312,7 @@
       </li>
       <li>
         <a class="card" href="https://scrub-keyboard.onrender.com" target="_blank" rel="noopener" style="--img: url(images/scrub-keyboard.jpg)">
-          <div class="shot"><img src="images/scrub-keyboard.jpg" alt="Scrub Piano: an 88-key keyboard with scale, instrument, and drone controls" loading="lazy"></div>
+          <div class="shot"><img src="images/scrub-keyboard.jpg" alt="Close-up of worn piano keys" loading="lazy"></div>
           <span class="num">03</span>
           <h2>Scrub Piano</h2>
           <p>A full 88-key piano in the browser, with a scrub slider, scales, instruments, and drone chords.</p>
@@ -314,7 +321,7 @@
       </li>
       <li>
         <a class="card" href="https://succs4u.onrender.com" target="_blank" rel="noopener" style="--img: url(images/succs4u.jpg)">
-          <div class="shot"><img src="images/succs4u.jpg" alt="succs4u: a desert rock garden at sunset with garden settings panel" loading="lazy"></div>
+          <div class="shot"><img src="images/succs4u.jpg" alt="Cacti planted among boulders and gravel in a rock garden" loading="lazy"></div>
           <span class="num">04</span>
           <h2>succs4u</h2>
           <p>Grow your own desert rock garden. Choose a world and palette, then dial in the plants, rocks, cacti, and snakes.</p>
@@ -323,7 +330,7 @@
       </li>
       <li>
         <a class="card" href="https://sunscout-r0xf.onrender.com" target="_blank" rel="noopener" style="--img: url(images/sunscout-r0xf.jpg)">
-          <div class="shot"><img src="images/sunscout-r0xf.jpg" alt="Sunscout: search form and map of sunny spots near Portland" loading="lazy"></div>
+          <div class="shot"><img src="images/sunscout-r0xf.jpg" alt="The sun bursting through clouds in a blue sky" loading="lazy"></div>
           <span class="num">05</span>
           <h2>Sunscout</h2>
           <p>Pick a starting point and some dates, and Sunscout maps where it's most likely to be sunny nearby.</p>
@@ -332,7 +339,7 @@
       </li>
       <li>
         <a class="card" href="https://wrens-journey.onrender.com" target="_blank" rel="noopener" style="--img: url(images/wrens-journey.jpg)">
-          <div class="shot"><img src="images/wrens-journey.jpg" alt="Wren's Journey: a text adventure opening in Sleeping Hollow" loading="lazy"></div>
+          <div class="shot"><img src="images/wrens-journey.jpg" alt="A clear TDK audio cassette tape" loading="lazy"></div>
           <span class="num">06</span>
           <h2>Wren's Journey</h2>
           <p>Interactive fiction: an albino orphan, a borrowed father's voice on a dying cassette tape, and a wall no one has opened in five hundred years.</p>
@@ -341,7 +348,7 @@
       </li>
       <li>
         <a class="card" href="https://tour-match.onrender.com" target="_blank" rel="noopener" style="--img: url(images/tour-match.jpg)">
-          <div class="shot"><img src="images/tour-match.jpg" alt="TourMatch: 'Find a local guide who gets you' with example searches and popular destinations" loading="lazy"></div>
+          <div class="shot"><img src="images/tour-match.jpg" alt="Visitors walking toward the Colosseum in Rome" loading="lazy"></div>
           <span class="num">07</span>
           <h2>TourMatch</h2>
           <p>Describe your trip in plain language. TourMatch searches tour marketplaces and ranks the local guides that fit.</p>
@@ -352,6 +359,19 @@
 
     <footer>
       Apps are hosted on Render's free tier, so the first load can take up to a minute while the app wakes up.
+      <details class="credits">
+        <summary>Photo credits</summary>
+        <ul>
+          <li><a href="https://commons.wikimedia.org/wiki/File:MV_Ross_Revenge_2018_-_Radio_Caroline_ship_(geograph_5865313).jpg">MV Ross Revenge 2018</a> by Chris Fletcher, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Hollywood_Theatre_facade_and_marquee,_Portland,_Oregon.jpg">Hollywood Theatre facade and marquee</a> by PortlandAppraisalBlog, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></li>
+          <li><a href="https://www.flickr.com/photos/82976024@N00/6137393610">Piano Keys [Explored]</a> by pellesten, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/71401718@N00/3612588779">Three kinds of cactus, planted in stone</a> by Wonderlane, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/71401718@N00/4479872616">The sun breaks through clouds in a blue sky, Seattle</a> by Wonderlane, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/12289718@N00/7586864728">Heavy Metal: TDK MA-R90 Cassette Tape</a> by Schill, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></li>
+          <li><a href="https://www.flickr.com/photos/73111976@N04/6600274795">Colisseum</a> by StefanoRomeTours, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></li>
+        </ul>
+        <p>Photos are resized, and shown tinted with a halftone overlay until hovered.</p>
+      </details>
     </footer>
   </main>
 
